@@ -16,6 +16,10 @@
     <tr>
       <th scope="col">Product Name</th>
       <th scope="col">Quantity</th>
+      <th scope="col">Action</th>
+
+      <td>
+        <a th:href="@{/product/delete/{id}(id=${product.productId})}" class="btn btn-sm btn-danger">Delete</a>      </td>
     </tr>
     </thead>
     <tbody>
