@@ -18,18 +18,16 @@
       <th scope="col">Product Name</th>
       <th scope="col">Quantity</th>
       <th scope="col">Action</th>
-
-      <td>
-        <a th:href="@{/product/delete/{id}(id=${product.productId})}" class="btn btn-sm btn-danger">Delete</a>      
-        <a th:href="@{/product/edit/{id}(id=${product.productId})}" class="btn btn-sm btn-primary">Edit</a>
-      </td>
-
     </tr>
     </thead>
     <tbody>
     <tr th:each="product: ${products}">
       <td th:text="${product.productName}"></td>
       <td th:text="${product.productQuantity}"></td>
+      <td>
+        <a th:href="@{/product/delete/{id}(id=${product.productId})}" class="btn btn-sm btn-danger">Delete</a>
+        <a th:href="@{/product/edit/{id}(id=${product.productId})}" class="btn btn-sm btn-primary">Edit</a>
+      </td>
     </tr>
     </tbody>
   </table>
