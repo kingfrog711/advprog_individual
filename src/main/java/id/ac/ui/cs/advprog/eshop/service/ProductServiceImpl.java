@@ -11,8 +11,14 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private final ProductRepository productRepository;
+
+    // Constructor Injection (Best Practice)
     @Autowired
-    private ProductRepository productRepository;
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Product create(Product product) {
@@ -32,6 +38,8 @@ public class ProductServiceImpl implements ProductService {
     public void delete(String productId) {
         productRepository.delete(productId);
     }
+
+    @Override
     public Product findById(String productId) {
         return productRepository.findById(productId);
     }

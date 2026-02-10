@@ -12,7 +12,7 @@ class ProductTest {
     void setUp() {
         this.product = new Product();
         this.product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        this.product.setProductName("Sampo Cap Bambang"); // <--- Ensure this matches
+        this.product.setProductName("Sampo Cap Bambang");
         this.product.setProductQuantity(100);
     }
 
@@ -23,7 +23,6 @@ class ProductTest {
 
     @Test
     void testGetProductName() {
-        // This must be "Sampo Cap Bambang", NOT "Sampo Cap Bango"
         assertEquals("Sampo Cap Bambang", this.product.getProductName());
     }
 
