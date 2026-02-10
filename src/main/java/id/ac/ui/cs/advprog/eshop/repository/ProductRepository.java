@@ -24,6 +24,8 @@ public class ProductRepository {
         return productData.iterator();
     }
 
+    public void delete(String id) {
+        productData.removeIf(p -> p.getProductId().equals(id));
     public Product findById(String id) {
         for (Product product : productData) {
             if (product.getProductId().equals(id)) {
