@@ -65,4 +65,56 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testEditProduct() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        Product newProductData = new Product();
+        newProductData.setProductId(product.getProductId());
+        newProductData.setProductName("Sampo Cap Usep");
+        newProductData.setProductQuantity(200);
+        productRepository.update(newProductData);
+
+        Product updatedProduct = productRepository.findById(product.getProductId());
+        assertEquals("Sampo Cap Usep", updatedProduct.getProductName());
+        assertEquals(200, updatedProduct.getProductQuantity());
+    }
+
+    @Test
+    void testEditProductNotFound() {
+        Product product = new Product();
+        product.setProductId("non-existent-id");
+        product.setProductName("Ghost Product");
+        product.setProductQuantity(0);
+
+        Product result = productRepository.update(product);
+        assertNull(result);
+    }
+
+    @Test
+    void testDeleteProduct() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        productRepository.delete(product.getProductId());
+
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertFalse(productIterator.hasNext());
+    }
+
+    @Test
+    void testDeleteProductNotFound() {
+        productRepository.delete("random-id-that-does-not-exist");
+
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertFalse(productIterator.hasNext());
+    }
 }
