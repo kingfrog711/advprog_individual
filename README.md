@@ -1,6 +1,26 @@
 # advprog_individual
 
 <details>
+<summary>Init</summary>
+
+## Getting Started
+
+### Prerequisites
+This project requires **Java 21**.
+
+### 1. Set Java Version (Mac/Linux)
+Run these commands in your terminal to point your environment to Java 21 and avoid Gradle version parsing errors:
+```bash
+# Set JAVA_HOME to version 21
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+
+# Verify the version
+java -version
+```
+
+</details>
+
+<details>
 
 <summary>Module 1</summary>
 
