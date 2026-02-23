@@ -1,7 +1,11 @@
 # advprog_individual
 
 <details>
-<summary>Init</summary>
+<summary>Init and Details</summary>
+
+**Gunata Prajna Putra Sakri | 2406453461**
+
+**Deployment Page:** crucial-irma-kingfrog711-c0522eb9.koyeb.app/
 
 ## Getting Started
 
@@ -18,10 +22,15 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 21)
 java -version
 ```
 
+### 2. How to Test
+To run the automated tests and ensure the application is working correctly, run this command in your terminal:
+```bash
+./gradlew clean test
+```
+
 </details>
 
 <details>
-
 <summary>Module 1</summary>
 
 ### Reflection 1
@@ -36,5 +45,14 @@ I tried to keep the code clean by using meaningful names and separating the cont
 2. If I were to create a new functional test suite by just copy-pasting the setup procedures and instance variables from the previous one, it would definitely lower the code quality. This approach creates a lot of code duplication, which violates the "Don't Repeat Yourself" (DRY) principle. It makes the code harder to maintain because if I ever need to change the setup logic (like the base URL), I’d have to update it in multiple files, increasing the risk of mistakes.
    To fix this and make the code cleaner, I should create a base class (e.g., BaseFunctionalTest) that handles the common setup and configuration. Then, all my functional test classes can just extend this base class. This keeps the code modular, reusable, and much easier to read.
 
+</details>
+
+<details>
+<summary>Module 2</summary>
+
+### Reflection
+i checked sonarcloud and noticed a few code smells, like some unused imports that were just sitting around in the files. i fixed them by simply removing the unused lines to keep the code clean and maintainable.
+
+i believe my current setup definitely fits the definition of ci/cd. every time i push my code to github, the actions automatically trigger a workflow that runs all my unit tests and checks the code quality using sonarcloud, which handles the continuous integration part. then, once all those checks pass, koyeb automatically detects the new changes and deploys the app to the live server without me having to do it manually. this creates a complete continuous deployment loop that makes the whole development process much safer and faster.
 
 </details>
