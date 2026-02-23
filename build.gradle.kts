@@ -87,3 +87,6 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test)
 }
 
+tasks.named<Jar>("jar") {
+    enabled = false
+}
