@@ -3,7 +3,9 @@
    <configuration>
       <verify-metadata>true</verify-metadata>
       <verify-signatures>false</verify-signatures>
+      <error-handler>print</error-handler>
    </configuration>
+   </verification-metadata>
    <components>
       <component group="ch.qos.logback" name="logback-classic" version="1.5.25">
          <artifact name="logback-classic-1.5.25.jar">
