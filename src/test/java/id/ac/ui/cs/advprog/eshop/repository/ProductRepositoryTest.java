@@ -1,76 +1,135 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
-import id.ac.ui.cs.advprog.eshop.service.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class ProductServiceImplTest {
+class ProductRepositoryTest {
 
-    @Mock
-    private ProductRepository productRepository;
-
-    @InjectMocks
-    private ProductServiceImpl productService;
-
-    private Product product;
+    ProductRepository productRepository;
 
     @BeforeEach
     void setUp() {
-        product = new Product();
-        product.setProductId("123");
-        product.setProductName("Test Product");
-        product.setProductQuantity(10);
+        productRepository = new ProductRepository();
     }
 
     @Test
-    void testCreate() {
-        when(productRepository.create(product)).thenReturn(product);
-        Product createdProduct = productService.create(product);
-        assertEquals(product, createdProduct);
-        verify(productRepository, times(1)).create(product);
+    void testCreateWithId() {
+        Product product = new Product();
+        product.setProductId("123");
+        product.setProductName("Test Product");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        Product found = productRepository.findById("123");
+        assertEquals("123", found.getProductId());
+    }
+
+    @Test
+    void testCreateWithoutId() {
+        Product product = new Product();
+        product.setProductName("Auto-ID Product");
+        product.setProductQuantity(5);
+        productRepository.create(product);
+
+        assertNotNull(product.getProductId());
+        assertFalse(product.getProductId().isEmpty());
     }
 
     @Test
     void testFindAll() {
-        List<Product> productList = new ArrayList<>();
-        productList.add(product);
-        Iterator<Product> iterator = productList.iterator();
-        when(productRepository.findAll()).thenReturn(iterator);
+        Product product1 = new Product();
+        product1.setProductId("1");
+        productRepository.create(product1);
 
-        List<Product> result = productService.findAll();
-        assertEquals(1, result.size());
-        assertEquals(product, result.get(0));
+        Product product2 = new Product();
+        product2.setProductId("2");
+        productRepository.create(product2);
+
+        Iterator<Product> iterator = productRepository.findAll();
+        assertTrue(iterator.hasNext());
+        assertEquals("1", iterator.next().getProductId());
+        assertTrue(iterator.hasNext());
+        assertEquals("2", iterator.next().getProductId());
+        assertFalse(iterator.hasNext());
     }
 
     @Test
-    void testFindById() {
-        when(productRepository.findById("123")).thenReturn(product);
-        Product foundProduct = productService.findById("123");
-        assertEquals(product, foundProduct);
+    void testFindByIdSuccess() {
+        Product product = new Product();
+        product.setProductId("123");
+        productRepository.create(product);
+
+        Product found = productRepository.findById("123");
+        assertNotNull(found);
+        assertEquals("123", found.getProductId());
     }
 
     @Test
-    void testUpdate() {
-        productService.update(product);
-        verify(productRepository, times(1)).update(product);
+    void testFindByIdNotFound() {
+        Product product = new Product();
+        product.setProductId("123");
+        productRepository.create(product);
+
+        Product found = productRepository.findById("456");
+        assertNull(found);
     }
 
     @Test
-    void testDelete() {
-        productService.delete("123");
-        verify(productRepository, times(1)).delete("123");
+    void testUpdateSuccess() {
+        Product product = new Product();
+        product.setProductId("123");
+        product.setProductName("Old Name");
+        productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("123");
+        updatedProduct.setProductName("New Name");
+        updatedProduct.setProductQuantity(20);
+
+        Product result = productRepository.update(updatedProduct);
+        assertNotNull(result);
+        assertEquals("New Name", result.getProductName());
+
+        Product found = productRepository.findById("123");
+        assertEquals(20, found.getProductQuantity());
+    }
+
+    @Test
+    void testUpdateNotFound() {
+        Product product = new Product();
+        product.setProductId("123");
+        productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("456");
+        updatedProduct.setProductName("Non-existent");
+
+        Product result = productRepository.update(updatedProduct);
+        assertNull(result);
+    }
+
+    @Test
+    void testDeleteSuccess() {
+        Product product = new Product();
+        product.setProductId("123");
+        productRepository.create(product);
+
+        productRepository.delete("123");
+        Product found = productRepository.findById("123");
+        assertNull(found);
+    }
+
+    @Test
+    void testDeleteNotFound() {
+        Product product = new Product();
+        product.setProductId("123");
+        productRepository.create(product);
+
+        productRepository.delete("456");
+        Product found = productRepository.findById("123");
+        assertNotNull(found);
     }
 }
