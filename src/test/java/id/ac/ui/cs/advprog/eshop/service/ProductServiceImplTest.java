@@ -73,4 +73,31 @@ class ProductServiceImplTest {
         productService.delete("123");
         verify(productRepository, times(1)).delete("123");
     }
+
+    @Test
+    void testCreateProductService() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+
+        when(productRepository.create(product)).thenReturn(product);
+        Product createdProduct = productService.create(product);
+
+        assertEquals(product.getProductId(), createdProduct.getProductId());
+        verify(productRepository, times(1)).create(product);
+    }
+
+    @Test
+    void testFindAllProductsService() {
+        List<Product> productList = new ArrayList<>();
+        productList.add(new Product());
+
+        Iterator<Product> iterator = productList.iterator();
+        when(productRepository.findAll()).thenReturn(iterator);
+
+        List<Product> result = productService.findAll();
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+    }
 }
