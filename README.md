@@ -56,3 +56,22 @@ i checked sonarcloud and noticed a few code smells, like some unused imports tha
 i believe my current setup definitely fits the definition of ci/cd. every time i push my code to github, the actions automatically trigger a workflow that runs all my unit tests and checks the code quality using sonarcloud, which handles the continuous integration part. then, once all those checks pass, koyeb automatically detects the new changes and deploys the app to the live server without me having to do it manually. this creates a complete continuous deployment loop that makes the whole development process much safer and faster.
 
 </details>
+
+<details>
+<summary>Module 3</summary>
+## Module 3 Reflection
+
+**1) Explain what principles you apply to your project!**
+* **Single Responsibility Principle (SRP):** I separated `CarController` from the `ProductController.java` file into its own file. Each controller now has a single responsibility dealing with its respective domain.
+* **Dependency Inversion Principle (DIP):** In `CarController`, I changed the injected service from the concrete class `CarServiceImpl` to the interface `CarService`. High-level modules should depend on abstractions, not concrete implementations.
+* **Liskov Substitution Principle (LSP):** I removed `extends ProductController` from `CarController`. A car controller isn't a direct substitute for a product controller, so inheriting its behaviors and routings just to share a file violates LSP.
+
+**2) Explain the advantages of applying SOLID principles to your project with examples.**
+* **Easier Testing & Maintenance (DIP):** By injecting the `CarService` interface instead of `CarServiceImpl`, I can easily mock the service when writing unit tests for `CarController` without relying on actual database or business logic.
+* **Better Readability and Reduced Merge Conflicts (SRP):** Having `ProductController` and `CarController` in their own respective files makes it significantly easier to navigate. If multiple developers are working on different features, they won't run into merge conflicts modifying the same file.
+
+**3) Explain the disadvantages of not applying SOLID principles to your project with examples.**
+* **Rigid Codebase (Failing DIP):** If I continued to rely on `CarServiceImpl` directly, and later wanted to introduce a new way to handle cars (like an external API service), I would have to rewrite the controller entirely to change the dependency.
+* **High Risk of Regression (Failing SRP & LSP):** Keeping two controllers in one file makes the file overly large and complex. If I modify `ProductController`, I risk accidentally breaking `CarController`. Furthermore, forcing `CarController` to extend `ProductController` implies that any changes made to the base product routing logic could unintentionally break the car routing logic.
+
+</details>
