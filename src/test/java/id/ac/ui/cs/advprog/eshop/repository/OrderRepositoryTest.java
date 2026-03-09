@@ -103,4 +103,16 @@ class OrderRepositoryTest {
         List<Order> orderList = orderRepository.findAllByAuthor(orders.get(1).getAuthor().toLowerCase());
         assertTrue(orderList.isEmpty());
     }
+
+    @Test
+    void testFindByIdWhenRepositoryEmpty() {
+        Order findResult = orderRepository.findById(orders.get(0).getId());
+        assertNull(findResult);
+    }
+
+    @Test
+    void testFindAllByAuthorWhenRepositoryEmpty() {
+        List<Order> orderList = orderRepository.findAllByAuthor(orders.get(0).getAuthor());
+        assertTrue(orderList.isEmpty());
+    }
 }

@@ -68,6 +68,14 @@ class PaymentTest {
     }
 
     @Test
+    void testCreatePaymentVoucherCodeRejectedNullCode() {
+        Map<String, String> paymentData = new HashMap<>();
+        Payment payment = new Payment("payment-1", "VOUCHER_CODE", paymentData, order);
+
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
     void testCreatePaymentCashOnDeliverySuccess() {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("address", "Jalan Margonda");
@@ -92,6 +100,24 @@ class PaymentTest {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("address", "Jalan Margonda");
         paymentData.put("deliveryFee", "");
+        Payment payment = new Payment("payment-1", "CASH_ON_DELIVERY", paymentData, order);
+
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentCashOnDeliveryRejectedNullAddress() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("deliveryFee", "10000");
+        Payment payment = new Payment("payment-1", "CASH_ON_DELIVERY", paymentData, order);
+
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentCashOnDeliveryRejectedNullFee() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("address", "Jalan Margonda");
         Payment payment = new Payment("payment-1", "CASH_ON_DELIVERY", paymentData, order);
 
         assertEquals("REJECTED", payment.getStatus());

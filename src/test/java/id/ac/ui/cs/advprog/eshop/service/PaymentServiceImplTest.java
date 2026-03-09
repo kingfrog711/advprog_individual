@@ -94,4 +94,34 @@ class PaymentServiceImplTest {
         List<Payment> result = paymentService.getAllPayments();
         assertEquals(2, result.size());
     }
+
+    @Test
+    void testSetStatusSuccess() {
+        Payment payment = payments.get(0); // This is a VOUCHER_CODE payment that evaluates to SUCCESS
+        doReturn(payment).when(paymentRepository).findById(payment.getId());
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
+
+        Payment result = paymentService.setStatus(payment, "SUCCESS");
+
+        assertEquals("SUCCESS", result.getStatus());
+        assertEquals("SUCCESS", result.getOrder().getStatus()); // Verifies the branch where order is set to SUCCESS
+        verify(paymentRepository, times(1)).save(any(Payment.class));
+    }
+
+    @Test
+    void testSetStatusRejected() {
+        // Create a payment that will naturally be REJECTED
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "BADCODE123");
+        Payment payment = new Payment("payment-reject", "VOUCHER_CODE", paymentData, order);
+
+        doReturn(payment).when(paymentRepository).findById(payment.getId());
+        doReturn(payment).when(paymentRepository).save(any(Payment.class));
+
+        Payment result = paymentService.setStatus(payment, "REJECTED");
+
+        assertEquals("REJECTED", result.getStatus());
+        assertEquals("FAILED", result.getOrder().getStatus()); // Verifies the branch where order is set to FAILED
+        verify(paymentRepository, times(1)).save(any(Payment.class));
+    }
 }

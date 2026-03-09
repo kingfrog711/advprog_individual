@@ -30,10 +30,11 @@ public class PaymentServiceImpl implements PaymentService {
             Payment newPayment = new Payment(result.getId(), result.getMethod(), result.getPaymentData(), result.getOrder());
             paymentRepository.save(newPayment);
 
-            // For the sake of syncing the order status (which is what setStatus usually aims to do based on payment success)
+            // Sync order status based on evaluated payment status
             if ("SUCCESS".equals(newPayment.getStatus())) {
                 newPayment.getOrder().setStatus("SUCCESS");
-            } else if ("REJECTED".equals(newPayment.getStatus())) {
+            }
+            if ("REJECTED".equals(newPayment.getStatus())) {
                 newPayment.getOrder().setStatus("FAILED");
             }
             return newPayment;
