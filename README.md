@@ -75,3 +75,29 @@ i believe my current setup definitely fits the definition of ci/cd. every time i
 * **High Risk of Regression (Failing SRP & LSP):** Keeping two controllers in one file makes the file overly large and complex. If I modify `ProductController`, I risk accidentally breaking `CarController`. Furthermore, forcing `CarController` to extend `ProductController` implies that any changes made to the base product routing logic could unintentionally break the car routing logic.
 
 </details>
+
+<details>
+<summary>Module 4</summary>
+## Module 4 Reflections
+
+### Reflection 1: TDD Experience and F.I.R.S.T. Principles
+Going through the Test-Driven Development (TDD) process for this module was a highly structured experience. By strictly adhering to the Red-Green-Refactor cycle, I found that TDD enforces a clear focus on the exact requirements before any implementation begins. Writing the failing tests first (the "Red" phase) naturally forced me to think about the edge cases—such as exactly how a 16-character voucher code should be validated or how an empty address in Cash on Delivery should be handled—without getting bogged down by the implementation details.
+
+Regarding the F.I.R.S.T. principles, I believe the tests created in this exercise strongly align with them:
+* **Fast:** The unit tests execute very quickly because they mock the repository layer and do not rely on heavy database setups or external network calls.
+* **Isolated/Independent:** Each test sets up its own `Order` or `Payment` data in the `@BeforeEach` setup method, ensuring that the outcome of one test does not affect the state of another.
+* **Repeatable:** The tests yield the same results regardless of the environment, as there are no external dependencies or time-sensitive assertions that would cause flaky results.
+* **Self-Validating:** Every test relies on specific JUnit assertions (like `assertEquals` or `assertThrows`) to determine success or failure automatically, requiring no manual log checking.
+* **Timely:** The tests were written *before* the production code, which is the core essence of the TDD workflow we followed.
+
+### Reflection 2: Teammate Code Review (Bonus 2)
+**1. What do you think about your partner's code? Are there any aspects that are still lacking?**
+
+**2. What did you do to contribute to your partner's code?**
+
+**3. What code smells did you find on your partner's code?**
+
+
+**4. What refactoring steps did you suggest and execute to fix those smells?**
+
+</details>
