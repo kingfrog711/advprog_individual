@@ -58,7 +58,8 @@ class OrderServiceImplTest {
     void testCreateOrderIfIdNull() {
         Order order = new Order(null, orders.get(0).getProducts(),
                 orders.get(0).getOrderTime(), orders.get(0).getAuthor());
-        doReturn(order).when(orderRepository).save(any(Order.class));
+
+        doAnswer(invocation -> invocation.getArgument(0)).when(orderRepository).save(any(Order.class));
 
         Order result = orderService.createOrder(order);
         verify(orderRepository, times(1)).save(any(Order.class));
