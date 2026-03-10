@@ -16,29 +16,29 @@ public class Payment {
         this.method = method;
         this.paymentData = paymentData;
         this.order = order;
+        this.status = evaluateStatus(method, paymentData);
+    }
 
+    private String evaluateStatus(String method, Map<String, String> paymentData) {
         if ("VOUCHER_CODE".equals(method)) {
-            String code = paymentData.get("voucherCode");
-            if (code != null && code.length() == 16 && code.startsWith("ESHOP")) {
-                long numCount = code.chars().filter(Character::isDigit).count();
-                if (numCount == 8) {
-                    this.status = "SUCCESS";
-                } else {
-                    this.status = "REJECTED";
-                }
-            } else {
-                this.status = "REJECTED";
-            }
+            return isValidVoucher(paymentData.get("voucherCode")) ? "SUCCESS" : "REJECTED";
         } else if ("CASH_ON_DELIVERY".equals(method)) {
-            String address = paymentData.get("address");
-            String deliveryFee = paymentData.get("deliveryFee");
-            if (address == null || address.trim().isEmpty() || deliveryFee == null || deliveryFee.trim().isEmpty()) {
-                this.status = "REJECTED";
-            } else {
-                this.status = "SUCCESS";
-            }
-        } else {
-            throw new IllegalArgumentException();
+            return isValidCOD(paymentData) ? "SUCCESS" : "REJECTED";
         }
+        throw new IllegalArgumentException();
+    }
+
+    private boolean isValidVoucher(String code) {
+        if (code == null || code.length() != 16 || !code.startsWith("ESHOP")) {
+            return false;
+        }
+        return code.chars().filter(Character::isDigit).count() == 8;
+    }
+
+    private boolean isValidCOD(Map<String, String> data) {
+        String address = data.get("address");
+        String fee = data.get("deliveryFee");
+        return address != null && !address.trim().isEmpty()
+                && fee != null && !fee.trim().isEmpty();
     }
 }
