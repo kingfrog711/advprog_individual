@@ -91,13 +91,20 @@ Regarding the F.I.R.S.T. principles, I believe the tests created in this exercis
 * **Timely:** The tests were written *before* the production code, which is the core essence of the TDD workflow we followed.
 
 ### Reflection 2: Teammate Code Review (Bonus 2)
+**[My Teammate: Muhammad Rafi Nazir Pratama (2406453556)]**
+
+**Branch I Worked on: https://github.com/KKI-MuhammadRafiNazirPratama-2406453556/Module-Projects/tree/order**
+
 **1. What do you think about your partner's code? Are there any aspects that are still lacking?**
+My partner's code successfully separates concerns between the layers and functions as intended. However, there were minor code cleanliness issues, specifically involving unused variables/parameters that cluttered the controller definitions.
 
 **2. What did you do to contribute to your partner's code?**
+I branched off their repository, removed the dispensable code from their controller layer, and submitted a Pull Request detailing the exact code smell I fixed.
 
 **3. What code smells did you find on your partner's code?**
-
+* **Unused Parameters (Dispensables):** In `CarController.java`, the POST mapping methods (`createCarPost` and `editCarPost`) explicitly requested a `Model` object as a parameter, but the parameter was entirely unused within the method body.
 
 **4. What refactoring steps did you suggest and execute to fix those smells?**
+* **Remove Unused Parameter:** I safely deleted the `Model model` argument from the method signatures of both POST endpoints. Since Spring MVC dynamically resolves parameters, removing it from the signature gracefully prevents the framework from needlessly injecting the object, cleaning up the code without altering any actual routing logic.
 
 </details>
